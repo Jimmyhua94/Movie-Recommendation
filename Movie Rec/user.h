@@ -17,7 +17,7 @@ public:
 	~user();
 private:
 	int uId;
-	map<int, int> movieRating;
+	map<int, double> movieRating;
 	map<int, double> genreRating;
 	vector<int> topMovies;
 	map<int, double> pref;

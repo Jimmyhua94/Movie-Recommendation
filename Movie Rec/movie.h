@@ -19,7 +19,6 @@ private:
 	int index;
 	string title;
 	int year;
-	int rating;
 	vector<int> genre;
 	double avg;
 	int count;

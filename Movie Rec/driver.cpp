@@ -16,11 +16,11 @@ driver::~driver()
 }
 
 struct topMovie {
-	size_t movieId;
+	int movieId;
 	string movieName;
 	double topRate;
 
-	topMovie(size_t mov, string mName, double topR)
+	topMovie(int mov, string mName, double topR)
 		: movieId(mov), movieName(mName), topRate(topR)
 	{ }
 };
@@ -40,13 +40,15 @@ void driver::topRated(int user, int k)
 	ratings.genreRatingAvg(user);
 	vector<topMovie> topMovies;
 	for (map<int, movie>::iterator it = movieDriver.movieInfo.begin(); it != movieDriver.movieInfo.end(); it++) {
-		double factor = 0;
-		for (int i = 0; i < it->second.genre.size(); i++) {
-			factor += userDriver.users[user].pref[it->second.genre[i]];
+		if (userDriver.users[user].movieRating.find(it->second.index) == userDriver.users[user].movieRating.end()) {
+			double factor = 0;
+			for (int i = 0; i < it->second.genre.size(); i++) {
+				factor += userDriver.users[user].pref[it->second.genre[i]];
+			}
+			factor /= it->second.genre.size();
+			factor *= it->second.avg;
+			topMovies.push_back(topMovie(it->second.index, it->second.title, factor));
 		}
-		factor /= it->second.genre.size();
-		factor *= it->second.avg;
-		topMovies.push_back(topMovie(it->second.index, it->second.title, factor));
 	}
 	sort(topMovies.begin(), topMovies.end(), compTopRatings);
 	for (int i = 0; i<k && i < topMovies.size(); i++) {

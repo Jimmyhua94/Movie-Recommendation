@@ -19,7 +19,6 @@ public:
 private:
 	map<int, movie>* movieInfo;
 	vector<user>* users;
-	map<int, map<int, int>> ratingMap;
 };
 
 #endif
